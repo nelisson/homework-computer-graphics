@@ -1,0 +1,192 @@
+﻿<Window x:Class="MultiWindowsPA2.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:Enumerations="clr-namespace:Utilities.Enumerations;assembly=Utilities"
+        xmlns:OpenGL="clr-namespace:OpenTK.Graphics.OpenGL;assembly=OpenTK"
+        xmlns:Enumerations1="clr-namespace:Close2GL.Enumerations;assembly=Close2GL"
+        xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
+        Title="Programming Assignment 2" ResizeMode="NoResize" AllowDrop="False">
+  <Window.Resources>
+    <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type System:Enum}" x:Key="AxesODP">
+      <ObjectDataProvider.MethodParameters>
+        <x:Type TypeName="Enumerations1:CameraAxes" />
+      </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type System:Enum}" x:Key="TransformsODP">
+      <ObjectDataProvider.MethodParameters>
+        <x:Type TypeName="Enumerations:TransformType" />
+      </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type System:Enum}" x:Key="FrontFaceODP">
+      <ObjectDataProvider.MethodParameters>
+        <x:Type TypeName="OpenGL:FrontFaceDirection" />
+      </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type System:Enum}" x:Key="PolygonODP">
+      <ObjectDataProvider.MethodParameters>
+        <x:Type TypeName="OpenGL:PolygonMode" />
+      </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type System:Enum}" x:Key="ShadingODP">
+      <ObjectDataProvider.MethodParameters>
+        <x:Type TypeName="OpenGL:ShadingModel" />
+      </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+  </Window.Resources>
+  <StackPanel>
+    <GroupBox Header="Model">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition />
+          <RowDefinition />
+          <RowDefinition />
+          <RowDefinition />
+          <RowDefinition />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Button Click="LoadClick" Grid.ColumnSpan="2">Load</Button>
+        <TextBlock Grid.Row="1" Grid.ColumnSpan="2" TextAlignment="Center" FontSize="14"
+                   Text="{Binding ModelName}" />
+
+        <GroupBox Header="Primitives" Grid.Row="2" Grid.Column="0">
+          <ListBox ItemsSource="{Binding Source={StaticResource PolygonODP}}"
+                   SelectedItem="{Binding PolygonMode}" BorderBrush="Transparent">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <RadioButton Content="{Binding}" GroupName="Polygon">
+                  <RadioButton.IsChecked>
+                    <Binding Path="IsSelected"
+                             RelativeSource="{RelativeSource AncestorType=ListBoxItem}" Mode="TwoWay" />
+                  </RadioButton.IsChecked>
+                </RadioButton>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+        </GroupBox>
+
+        <GroupBox Header="Orientation" Grid.Row="2" Grid.Column="1">
+          <ListBox VerticalAlignment="Center" ItemsSource="{Binding Source={StaticResource FrontFaceODP}}"
+                   SelectedItem="{Binding FrontFaceDirection}" BorderBrush="Transparent">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <RadioButton Content="{Binding}" GroupName="FrontFaceDirection">
+                  <RadioButton.IsChecked>
+                    <Binding Path="IsSelected"
+                             RelativeSource="{RelativeSource AncestorType=ListBoxItem}" Mode="TwoWay" />
+                  </RadioButton.IsChecked>
+                </RadioButton>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+        </GroupBox>
+
+        <CheckBox IsChecked="{Binding DepthTest}" Grid.Row="3">Depth Test</CheckBox>
+        <CheckBox IsChecked="{Binding Clipping}" Grid.Row="4">Enable Clipping</CheckBox>
+        <CheckBox IsChecked="{Binding Culling}" Grid.Row="5">Enable Culling</CheckBox>
+        <CheckBox IsChecked="{Binding EnableLight}" Grid.Row="6">Lighting</CheckBox>
+
+        <GroupBox Header="Lightining" Grid.Row="3" Grid.Column="1" Grid.RowSpan="4">
+          <ListBox ItemsSource="{Binding Source={StaticResource ShadingODP}}" VerticalAlignment="Center"
+                   SelectedItem="{Binding ShadingModel}" BorderBrush="Transparent">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <RadioButton Content="{Binding}" GroupName="Light">
+                  <RadioButton.IsChecked>
+                    <Binding Path="IsSelected"
+                             RelativeSource="{RelativeSource AncestorType=ListBoxItem}" Mode="TwoWay" />
+                  </RadioButton.IsChecked>
+                </RadioButton>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+
+        </GroupBox>
+
+      </Grid>
+    </GroupBox>
+
+
+    <GroupBox Header="Camera Control">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <GroupBox Header="Camera Axis" Grid.Row="0" Grid.Column="0">
+          <ListBox ItemsSource="{Binding Source={StaticResource AxesODP}}" SelectedItem="{Binding Axes}"
+                   VerticalAlignment="Center" BorderBrush="Transparent">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <RadioButton Content="{Binding}" GroupName="Axes">
+                  <RadioButton.IsChecked>
+                    <Binding Path="IsSelected"
+                             RelativeSource="{RelativeSource AncestorType=ListBoxItem}" Mode="TwoWay" />
+                  </RadioButton.IsChecked>
+                </RadioButton>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+        </GroupBox>
+
+        <GroupBox Header="Transformation" Grid.Row="0" Grid.Column="1">
+          <ListBox ItemsSource="{Binding Source={StaticResource TransformsODP}}"
+                   SelectedItem="{Binding Transform}" VerticalAlignment="Center" BorderBrush="Transparent">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <RadioButton Content="{Binding}" GroupName="Transform">
+                  <RadioButton.IsChecked>
+                    <Binding Path="IsSelected"
+                             RelativeSource="{RelativeSource AncestorType=ListBoxItem}" Mode="TwoWay" />
+                  </RadioButton.IsChecked>
+                </RadioButton>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+        </GroupBox>
+        <CheckBox IsChecked="{Binding LookToObject}" Grid.Row="1" Grid.ColumnSpan="2"
+                  HorizontalAlignment="Center">Look at Object</CheckBox>
+        <Button Click="ResetViewClick" Grid.Row="2" Grid.ColumnSpan="2">Reset View</Button>
+      </Grid>
+    </GroupBox>
+
+    <GroupBox Header="Clipping Planes">
+      <StackPanel Margin="5">
+        <TextBlock>Near</TextBlock>
+        <extToolkit:DoubleUpDown x:Name="NearUpDown" Minimum="0.1" Increment="0.1" FormatString="F1"
+                                 Maximum="{Binding ElementName=FarUpDown, Path=Value}" Value="{Binding ZNear}" />
+        <TextBlock>Far</TextBlock>
+        <extToolkit:DoubleUpDown Minimum="{Binding ElementName=NearUpDown, Path=Value}" x:Name="FarUpDown"
+                                 Value="{Binding ZFar}" FormatString="F1" />
+      </StackPanel>
+    </GroupBox>
+
+    <GroupBox Header="Field of View">
+      <UniformGrid Margin="5" Columns="2" Rows="2">
+        <TextBlock TextAlignment="Center" VerticalAlignment="Bottom">Hfovy</TextBlock>
+        <TextBlock TextAlignment="Center" VerticalAlignment="Bottom">Vfovy</TextBlock>
+        <extToolkit:DoubleUpDown Minimum="0.1" Increment="0.1" Maximum="179.9" FormatString="F1"
+                                 Value="{Binding HFovy}" />
+        <extToolkit:DoubleUpDown Minimum="0.1" Increment="0.1" Maximum="179.9" FormatString="F1"
+                                 Value="{Binding VFovy}" />
+      </UniformGrid>
+    </GroupBox>
+
+    <GroupBox Header="Color">
+      <StackPanel Margin="5">
+        <extToolkit:ColorPicker x:Name="Colors" DisplayColorAndName="True"
+                                SelectedColorChanged="ColorPickerSelectedColorChanged" />
+      </StackPanel>
+    </GroupBox>
+  </StackPanel>
+</Window>

@@ -1,0 +1,94 @@
+﻿<Window x:Class="Additional3.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Validators="clr-namespace:Utilities.Validators;assembly=Utilities"
+        xmlns:OpenTK="clr-namespace:OpenTK;assembly=OpenTK.GLControl" Title="MainWindow" Height="374" Width="738">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <WindowsFormsHost>
+      <OpenTK:GLControl VSync="True" Resize="GlControlResize" Paint="GlControlPaint" MouseMove="GLControlOnMouseMove"
+                        Load="GlControlLoad" KeyUp="GLControlOnKeyUp" KeyDown="GLControlKeyDown" />
+    </WindowsFormsHost>
+    <StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
+
+      <StackPanel Margin="5">
+
+        <StackPanel Orientation="Horizontal">
+          <TextBlock>X</TextBlock>
+          <TextBox IsEnabled="{Binding Enabled}">
+            <TextBox.Text>
+              <Binding UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True"
+                       NotifyOnSourceUpdated="True" NotifyOnTargetUpdated="True" Mode="TwoWay" BindsDirectlyToSource="True" Path="X">
+                <Binding.ValidationRules>
+                  <Validators:FloatRule />
+                </Binding.ValidationRules>
+              </Binding>
+            </TextBox.Text>
+          </TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+          <TextBlock>Y</TextBlock>
+          <TextBox IsEnabled="{Binding Enabled}">
+            <TextBox.Text>
+              <Binding UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True"
+                       NotifyOnSourceUpdated="True" NotifyOnTargetUpdated="True" Mode="TwoWay" BindsDirectlyToSource="True" Path="Y">
+                <Binding.ValidationRules>
+                  <Validators:FloatRule />
+                </Binding.ValidationRules>
+              </Binding>
+            </TextBox.Text>
+          </TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+          <TextBlock>Z</TextBlock>
+          <TextBox IsEnabled="{Binding Enabled}">
+            <TextBox.Text>
+              <Binding UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True"
+                       NotifyOnSourceUpdated="True" NotifyOnTargetUpdated="True" Mode="TwoWay" BindsDirectlyToSource="True" Path="Z">
+                <Binding.ValidationRules>
+                  <Validators:FloatRule />
+                </Binding.ValidationRules>
+              </Binding>
+            </TextBox.Text>
+          </TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+          <TextBlock>Ângulo</TextBlock>
+          <TextBox IsEnabled="{Binding Enabled}">
+            <TextBox.Text>
+              <Binding UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True"
+                       NotifyOnSourceUpdated="True" NotifyOnTargetUpdated="True" Mode="TwoWay" BindsDirectlyToSource="True" Path="Angle">
+                <Binding.ValidationRules>
+                  <Validators:FloatRule />
+                </Binding.ValidationRules>
+              </Binding>
+            </TextBox.Text>
+          </TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+          <TextBlock>
+            Tempo
+            <LineBreak />
+            da Animação
+          </TextBlock>
+          <TextBox IsEnabled="{Binding Enabled}" VerticalContentAlignment="Center">
+            <TextBox.Text>
+              <Binding UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True"
+                       NotifyOnSourceUpdated="True" NotifyOnTargetUpdated="True" Mode="TwoWay" BindsDirectlyToSource="True" Path="Time">
+                <Binding.ValidationRules>
+                  <Validators:FloatRule />
+                </Binding.ValidationRules>
+              </Binding>
+            </TextBox.Text>
+          </TextBox>
+        </StackPanel>
+      </StackPanel>
+      <StackPanel HorizontalAlignment="Center" Margin="20" VerticalAlignment="Center">
+        <Button Click="InitialPosition">Posição Inicial</Button>
+        <Button Click="RotateButtonClick">Rotacionar</Button>
+      </StackPanel>
+    </StackPanel>
+  </Grid>
+</Window>
